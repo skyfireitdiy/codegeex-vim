@@ -42,6 +42,7 @@ function! codegeex#GenCode(ins=0)
         echo "Unsupported Language"
         return
     endif
+    echo "Codegeex is thinking ..."
     let back = @a
     normal! "aygg
     let code = @a
