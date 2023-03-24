@@ -74,3 +74,11 @@ Codegeex-vim currently supports the following languages:
 
 If the code you want to summarize is written in a language not on this list, Codegeex may still be able to generate a summary, but it may not be as accurate.
 
+## Key Map
+
+Here is an example of shortcut key configuration:
+
+```vim
+inoremap <C-v> <ESC>:call codegeex#GenCode(1)<CR>
+nnoremap <C-v> :call codegeex#GenCode(0)<CR>
+```

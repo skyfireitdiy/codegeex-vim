@@ -36,7 +36,7 @@ function! codegeex#SetTianqiKeyFile(keyfile)
     let g:tianqiKeyFile = a:keyfile
 endfunction
 
-function! codegeex#GenCode()
+function! codegeex#GenCode(ins=0)
     let lang = codegeex#getLanguage()
     if lang == "Unknown"
         return
@@ -49,6 +49,9 @@ function! codegeex#GenCode()
     set paste
     call feedkeys("\<C-o>a\<C-r>a\<ESC>")
     set nopaste
+    if a:ins
+            call feedkeys('a')
+    endif
 endfunction
 
 
