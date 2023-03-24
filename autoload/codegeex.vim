@@ -39,6 +39,7 @@ endfunction
 function! codegeex#GenCode(ins=0)
     let lang = codegeex#getLanguage()
     if lang == "Unknown"
+        echo "Unsupported Language"
         return
     endif
     let back = @a
@@ -50,7 +51,7 @@ function! codegeex#GenCode(ins=0)
     call feedkeys("\<C-o>a\<C-r>a\<ESC>")
     set nopaste
     if a:ins
-            call feedkeys('a')
+        call feedkeys('a')
     endif
 endfunction
 
