@@ -1,6 +1,6 @@
 let g:tianqiKeyFile = expand("~/.tianqi.key")
 
-let file_types = {
+let s:file_types = {
             \ 'cpp': 'C++',
             \ 'c': 'C',
             \ 'csharp': 'C#',
@@ -29,7 +29,7 @@ let file_types = {
 
 function! codegeex#getLanguage()
     let file_type = &filetype
-    return get(file_types, file_type, 'Unknown')
+    return get(s:file_types, file_type, 'Unknown')
 endfunction
 
 function! codegeex#SetTianqiKeyFile(keyfile)

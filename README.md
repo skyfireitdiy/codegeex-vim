@@ -79,6 +79,6 @@ If the code you want to summarize is written in a language not on this list, Cod
 Here is an example of shortcut key configuration:
 
 ```vim
-inoremap <C-v> <ESC>:call codegeex#GenCode(1)<CR>
-nnoremap <C-v> :call codegeex#GenCode(0)<CR>
+inoremap <C-b> <ESC>:call codegeex#GenCode(1)<CR>
+nnoremap <C-b> :call codegeex#GenCode(0)<CR>
 ```

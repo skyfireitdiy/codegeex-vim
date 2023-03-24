@@ -22,7 +22,7 @@ def request_codegeex_gen(prompt, lang, apikey, apisecret):
                                  data=json.dumps(payload),
                                  headers=headers)
         data = json.loads(response.content.decode('utf-8'))
-        print(''.join(data['result']['output']['code']))
+        print(''.join(data['result']['output']['code']), end='')
     except Exception:
         pass
 
@@ -32,7 +32,7 @@ def load_key(keyfile):
         return json.load(f)
 
 
-if __name__ == '__main__':
+def main():
     parser = argparse.ArgumentParser()
     parser.add_argument('--keyfile',
                         default=os.path.join(os.environ["HOME"],
@@ -49,3 +49,7 @@ if __name__ == '__main__':
                              result.lang,
                              key['apikey'],
                              key['apisecret'])
+
+
+if __name__ == "__main__":
+    main()
