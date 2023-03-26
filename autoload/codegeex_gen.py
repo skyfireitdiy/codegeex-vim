@@ -37,18 +37,16 @@ def main():
     parser.add_argument('--keyfile',
                         default=os.path.join(os.environ["HOME"],
                                              ".tianqi.key"))
-    parser.add_argument('func')
     parser.add_argument('lang')
     parser.add_argument('prompt')
     result = parser.parse_args()
     if not os.path.exists(result.keyfile):
         return
     key = load_key(result.keyfile)
-    if result.func == 'gen':
-        request_codegeex_gen(result.prompt,
-                             result.lang,
-                             key['apikey'],
-                             key['apisecret'])
+    request_codegeex_gen(result.prompt,
+                         result.lang,
+                         key['apikey'],
+                         key['apisecret'])
 
 
 if __name__ == "__main__":
