@@ -1,5 +1,4 @@
 let s:tianqiKeyFile = expand("~/.tianqi.key")
-let s:dest_lang = ""
 
 let s:file_types = {
             \ 'cpp': 'C++',
@@ -77,8 +76,8 @@ function! codegeex#getVisualText()
 endfunction
 
 
-function! codegeex#openWindow()
-    let buf_name = '__Codegeex_'.s:dest_lang.'__'
+function! codegeex#openWindow(tp)
+    let buf_name = '__Codegeex_'. a:tp .'__'
     let index = bufnr(buf_name)
     let new = 0
     if index == -1
@@ -86,8 +85,10 @@ function! codegeex#openWindow()
         wincmd L
         enew
         execute 'file ' . buf_name
-        let index = bufnr('%')
-        let new = 1
+        setlocal noswapfile
+        setlocal hidden
+        setlocal buftype=nofile
+        execute 'setlocal filetype=' . a:tp
     else
         if index(tabpagebuflist(), index) == -1
             vsplit
@@ -97,15 +98,11 @@ function! codegeex#openWindow()
             call win_gotoid(win_findbuf(index)[0])
         endif
     endif
-    setlocal noswapfile
-    setlocal hidden
-    execute 'setlocal filetype=' . s:dest_lang
-    setlocal buftype=nofile
 endfunction
 
 
-function! codegeex#handleTransResult(j,d,e)
-    call codegeex#openWindow()
+function! codegeex#handleTransResult(tp,d)
+    call codegeex#openWindow(a:tp)
     let result = a:d
     call append(line('$'), result)
     call append(line('$'), '')
@@ -128,18 +125,21 @@ function! codegeex#TransCode()
     endfor
 
     let index = codegeex#chooseDstLang(lst)
-    if index < 0 || index >= len(lst)
-        echo "Index out of range"
+    if index < 0
         return
     endif
 
-    let s:dest_lang = ft_lst[index]
     let dst_lang = lst[index]
+
+    if src_lang == dst_lang
+        echom "Src language is same as dest language"
+        return
+    endif
 
     echo "Codegeex is thinking ..."
     let code = codegeex#getVisualText()
     let cmd = "python3 ~/.local/share/nvim/plugged/codegeex-vim/autoload/codegeex_trans.py " . src_lang . " " . dst_lang . " " . shellescape(code)
-    call jobstart(cmd, {"on_stdout": function('codegeex#handleTransResult'), 'stadout_buffered':1})
+    call jobstart(cmd, {"on_stdout": {j,d,e->codegeex#handleTransResult(ft_lst[index], d)}, 'stadout_buffered':1})
 endfunction
 
 
